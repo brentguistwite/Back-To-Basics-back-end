@@ -1,21 +1,24 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const passport = require('passport');
-
-const jwtStrategy = require('./../auth/strategies');
-
+const mongoose = require('mongoose');
+const { jwtStrategy, } = require('./../auth/strategies');
 const { User, } = require('./models');
-
 const router = express.Router();
 
-router.use(bodyParser.json());
+mongoose.Promise = global.Promise;
 
+router.use(bodyParser.json());
+passport.use(jwtStrategy);
+
+const jwtAuth = passport.authenticate('jwt', { session: false, });
+console.log(process.env.DATABASE_URL);
 
 // Post to register a new user
 router.post('/register', (req, res) => {
   console.log('hi');
-  const requiredFields = [ 'username', 'password', ];
+  const requiredFields = [ 'username', 'password', 'emailAddress', 'firstName', 'lastName', ];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -128,7 +131,7 @@ router.post('/register', (req, res) => {
       });
     })
     .then((user) => {
-      return res.status(201).location(`/api/users/${user.id}`).json(user.apiRepr());
+      return res.status(201).location(`/users/${user.id}`).json(user.apiRepr());
     })
     .catch((err) => {
       // Forward validation errors on to the client, otherwise give a 500
@@ -140,8 +143,9 @@ router.post('/register', (req, res) => {
     });
 });
 
+
 // ===== Protected endpoint =====
-router.get('/:id', jwtStrategy, (req, res) => {
+router.get('/:id', jwtAuth, (req, res) => {
   console.log(`${req.user.username} successfully accessed all secret info.`);
   return User.findById(req.params.id)
     .then(user => res.json(user.apiRepr()))

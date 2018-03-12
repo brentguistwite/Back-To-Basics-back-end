@@ -23,7 +23,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
 const { router: usersRouter, } = require('./users');
 const { router: authRouter, localStrategy, jwtStrategy, } = require('./auth');
 
