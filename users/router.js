@@ -179,7 +179,7 @@ router.post('/users', (req, res) => {
 router.get('/users/:id', (req, res) => {
   return User.findById(req.params.id)
     .then(user => res.json(user.apiRepr()))
-    .catch(err => res.status(500).json({ message: 'Internal server error', }));
+    .catch(err => res.status(500).json({ message: 'Internal server error', }));// eslint-disable-line
 });
 
 const localAuth = passport.authenticate('local', { session: false, });
