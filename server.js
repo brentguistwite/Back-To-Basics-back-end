@@ -22,8 +22,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const { router: usersRouter } = require('./users');
-const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const { router: usersRouter, } = require('./users');
+const { router: authRouter, localStrategy, jwtStrategy, } = require('./auth');
 
 const {PORT, CLIENT_ORIGIN,} = require('./config');
 const {dbConnect,} = require('./db-mongoose');
@@ -37,6 +37,14 @@ app.use(
 app.use(
   cors({origin: CLIENT_ORIGIN,})
 );
+
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+app.use('/api/users/', usersRouter);
+app.use('/api/auth/', authRouter);
+
+const jwtAuth = passport.authenticate('jwt', { session: false, });
 
 app.use('/users', usersRouter);
 

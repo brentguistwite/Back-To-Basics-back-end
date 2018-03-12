@@ -1,15 +1,57 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const passport = require('passport');
+const { Strategy: LocalStrategy, } = require('passport-local');
+
 const { User, } = require('./models');
 
 const router = express.Router();
 
-const jsonParser = bodyParser.json();
+router.use(bodyParser.json());
+
+// ===== Define and create basicStrategy =====
+const localStrategy = new LocalStrategy((username, password, done) => {
+  let user;
+  User
+    .findOne({ username, })
+    .then((results) => {
+      user = results;
+
+      if (!user) {
+        return Promise.reject({
+          reason: 'LoginError',
+          message: 'Incorrect username',
+          location: 'username',
+        });
+      }
+
+      return user.validatePassword(password);
+    })
+    .then((isValid) => {
+      if (!isValid) {
+        return Promise.reject({
+          reason: 'LoginError',
+          message: 'Incorrect password',
+          location: 'password',
+        });
+      }
+      return done(null, user);
+    })
+    .catch((err) => {
+      if (err.reason === 'LoginError') {
+        return done(null, false);
+      }
+
+      return done(err);
+    });
+});
+
+passport.use(localStrategy);
 
 // Post to register a new user
-router.post('/', jsonParser, (req, res) => {
-  const requiredFields = [ 'username', 'password' ,];
+router.post('/users', (req, res) => {
+  const requiredFields = [ 'username', 'password', ];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -42,7 +84,7 @@ router.post('/', jsonParser, (req, res) => {
   // Trimming them and expecting the user to understand.
   // We'll silently trim the other fields, because they aren't credentials used
   // To log in, so it's less of a problem.
-  const explicityTrimmedFields = [ 'username', 'password' ,];
+  const explicityTrimmedFields = [ 'username', 'password', ];
   const nonTrimmedField = explicityTrimmedFields.find(
     field => req.body[field].trim() !== req.body[field]
   );
@@ -59,7 +101,7 @@ router.post('/', jsonParser, (req, res) => {
   const sizedFields = {
     username: {min: 1,},
     password: {
-      min: 10,
+      min: 8,
       // Bcrypt truncates after 72 characters, so let's not give the illusion
       // Of security by storing extra (unused) info
       max: 72,
@@ -89,7 +131,7 @@ router.post('/', jsonParser, (req, res) => {
     });
   }
 
-  let { username, password, firstName = '', lastName = '', } = req.body;
+  let { username, password, firstName = '', lastName = '', } = req.body; // eslint-disable-line
   // Username and password come in pre-trimmed, otherwise we throw an error
   // Before this
   firstName = firstName.trim();
@@ -110,16 +152,16 @@ router.post('/', jsonParser, (req, res) => {
       // If there is no existing user, hash the password
       return User.hashPassword(password);
     })
-    .then((hash) => {
+    .then((digest) => {
       return User.create({
         username,
-        password: hash,
+        password: digest,
         firstName,
         lastName,
       });
     })
     .then((user) => {
-      return res.status(201).json(user.serialize());
+      return res.status(201).location(`/api/users/${user.id}`).json(user.apiRepr());
     })
     .catch((err) => {
       // Forward validation errors on to the client, otherwise give a 500
@@ -131,14 +173,18 @@ router.post('/', jsonParser, (req, res) => {
     });
 });
 
-// Never expose all your users like below in a prod application
-// We're just doing this so we have a quick way to see
-// If we're creating users. keep in mind, you can also
-// Verify this in the Mongo shell.
-router.get('/', (req, res) => {
-  return User.find()
-    .then(users => res.json(users.map(user => user.serialize())))
+router.get('/users/:id', (req, res) => {
+  return User.findById(req.params.id)
+    .then(user => res.json(user.apiRepr()))
     .catch(err => res.status(500).json({ message: 'Internal server error', }));
+});
+
+const localAuth = passport.authenticate('local', { session: false, });
+
+// ===== Protected endpoint =====
+router.post('/login', localAuth, (req, res) => {
+  console.log(`${req.user.username} successfully logged in.`);
+  return res.json({ data: 'rosebud', });
 });
 
 module.exports = { router, };

@@ -1,9 +1,10 @@
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
-
 mongoose.Promise = global.Promise;
 
-const UserSchema = mongoose.Schema({
+const UserSchema = new mongoose.Schema({
+  firstName: { type: String, default: '', },
+  lastName: { type: String, default: '', },
   username: {
     type: String,
     required: true,
@@ -13,15 +14,14 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  firstName: { type: String, required: true, },
-  lastName: { type: String, required: true, },
 });
 
-UserSchema.methods.serialize = function () {
+UserSchema.methods.apiRepr = function () {
   return {
-    username: this.username || '',
-    firstName: this.firstName || '',
-    lastName: this.lastName || '',
+    id: this._id,
+    username: this.username,
+    firstName: this.firstName,
+    lastName: this.lastName,
   };
 };
 
