@@ -9,7 +9,7 @@ const {dbConnect,} = require('./db-mongoose');
 const app = express();
 
 app.use(
-  morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {skip: (req, res) => process.env.NODE_ENV === 'test',})
+    morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', { skip: (req, res) => process.env.NODE_ENV === 'test', }) // eslint-disable-line
 );
 
 app.use(
