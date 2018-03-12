@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const passport = require('passport');
-const { Strategy: LocalStrategy, } = require('passport-local');
+
+const jwtStrategy = require('./../auth/strategies');
 
 const { User, } = require('./models');
 
@@ -10,47 +11,10 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
-// ===== Define and create basicStrategy =====
-const localStrategy = new LocalStrategy((username, password, done) => {
-  let user;
-  User
-    .findOne({ username, })
-    .then((results) => {
-      user = results;
-
-      if (!user) {
-        return Promise.reject({
-          reason: 'LoginError',
-          message: 'Incorrect username',
-          location: 'username',
-        });
-      }
-
-      return user.validatePassword(password);
-    })
-    .then((isValid) => {
-      if (!isValid) {
-        return Promise.reject({
-          reason: 'LoginError',
-          message: 'Incorrect password',
-          location: 'password',
-        });
-      }
-      return done(null, user);
-    })
-    .catch((err) => {
-      if (err.reason === 'LoginError') {
-        return done(null, false);
-      }
-
-      return done(err);
-    });
-});
-
-passport.use(localStrategy);
 
 // Post to register a new user
-router.post('/users', (req, res) => {
+router.post('/register', (req, res) => {
+  console.log('hi');
   const requiredFields = [ 'username', 'password', ];
   const missingField = requiredFields.find(field => !(field in req.body));
 
@@ -176,18 +140,12 @@ router.post('/users', (req, res) => {
     });
 });
 
-router.get('/users/:id', (req, res) => {
+// ===== Protected endpoint =====
+router.get('/:id', jwtStrategy, (req, res) => {
+  console.log(`${req.user.username} successfully accessed all secret info.`);
   return User.findById(req.params.id)
     .then(user => res.json(user.apiRepr()))
     .catch(err => res.status(500).json({ message: 'Internal server error', }));// eslint-disable-line
-});
-
-const localAuth = passport.authenticate('local', { session: false, });
-
-// ===== Protected endpoint =====
-router.post('/login', localAuth, (req, res) => {
-  console.log(`${req.user.username} successfully logged in.`);
-  return res.json({ data: 'rosebud', });
 });
 
 module.exports = { router, };

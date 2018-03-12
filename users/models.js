@@ -5,6 +5,11 @@ mongoose.Promise = global.Promise;
 const UserSchema = new mongoose.Schema({
   firstName: { type: String, default: '', },
   lastName: { type: String, default: '', },
+  emailAddress: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   username: {
     type: String,
     required: true,
@@ -19,9 +24,10 @@ const UserSchema = new mongoose.Schema({
 UserSchema.methods.apiRepr = function () {
   return {
     id: this._id,
-    username: this.username,
     firstName: this.firstName,
     lastName: this.lastName,
+    emailAddress: this.emailAddress,
+    username: this.username,
   };
 };
 
@@ -36,3 +42,5 @@ UserSchema.statics.hashPassword = function (password) {
 const User = mongoose.model('User', UserSchema);
 
 module.exports = { User, };
+
+// collection of 10 questions -> users

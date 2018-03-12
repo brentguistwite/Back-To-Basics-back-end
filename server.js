@@ -16,12 +16,14 @@ C) fetchProtectedData - GET - `${API_BASE_URL}/protected` - headers: Authorizati
 D) registerUser - POST - `${API_BASE_URL}/users` - body: JSON.stringify(user)
 
 */
+require('dotenv').config();
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 const { router: usersRouter, } = require('./users');
 const { router: authRouter, localStrategy, jwtStrategy, } = require('./auth');
 
@@ -31,6 +33,10 @@ mongoose.Promise = global.Promise;
 const app = express();
 
 app.use(
+  bodyParser.json()
+);
+
+app.use(
     morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', { skip: (req, res) => process.env.NODE_ENV === 'test', }) // eslint-disable-line
 );
 
@@ -38,15 +44,19 @@ app.use(
   cors({origin: CLIENT_ORIGIN,})
 );
 
+app.use('/users', usersRouter);
+app.use('/auth', authRouter);
+
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
-app.use('/api/users/', usersRouter);
-app.use('/api/auth/', authRouter);
+
 
 const jwtAuth = passport.authenticate('jwt', { session: false, });
 
-app.use('/users', usersRouter);
+app.get('/protected', jwtAuth, (req, res) => {
+  return res.json( { data: 'rosebud', } );
+});
 
 function runServer (port = PORT) {
   const server = app
