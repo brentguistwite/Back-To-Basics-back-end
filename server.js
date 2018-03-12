@@ -1,12 +1,4 @@
 /*
-Technologies: Node.js, Express, MongoDB, Passport, JWT
-Allow users to register/login using JWT authentication
-Use the spaced repetition algorithm to generate the next word pair
-Pairs of words should be stored in a Mongo database
-This should be a fixed array of questions for an MVP
-Store the number of questions which users have answered correctly in the database
-Store whatever information is needed for the algorithm about the user's answer history in the database
--------------------------------------------------------------------------------------------
 A) login - POST - `${API_BASE_URL}/auth/login` - body: JSON.stringify({
                username,
                password
@@ -51,12 +43,6 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 
-
-const jwtAuth = passport.authenticate('jwt', { session: false, });
-
-app.get('/protected', jwtAuth, (req, res) => {
-  return res.json( { data: 'rosebud', } );
-});
 
 function runServer (port = PORT) {
   const server = app

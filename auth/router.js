@@ -6,6 +6,17 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const router = express.Router();
 
+/*
+A) login - POST - `${API_BASE_URL}/auth/login` - body: JSON.stringify({
+               username,
+               password
+           })
+B) refreshAuthToken - POST - `${API_BASE_URL}/auth/refresh` - headers: Authorization: `Bearer ${authToken}`
+C) fetchProtectedData - GET - `${API_BASE_URL}/protected` - headers: Authorization: `Bearer ${authToken}`
+D) registerUser - POST - `${API_BASE_URL}/users` - body: JSON.stringify(user)
+
+*/
+
 const createAuthToken = function (user) {
   return jwt.sign({ user, }, config.JWT_SECRET, {
     subject: user.username,
@@ -18,7 +29,6 @@ const localAuth = passport.authenticate('local', { session: false, });
 router.use(bodyParser.json());
 // The user provides a username and password to login
 router.post('/login', localAuth, (req, res) => {
-  console.log('hello');
   const authToken = createAuthToken(req.user.serialize());
   res.json({ authToken, });
 });

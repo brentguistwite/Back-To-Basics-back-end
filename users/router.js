@@ -17,8 +17,7 @@ console.log(process.env.DATABASE_URL);
 
 // Post to register a new user
 router.post('/register', (req, res) => {
-  console.log('hi');
-  const requiredFields = [ 'username', 'password', 'emailAddress', 'firstName', 'lastName', ];
+  const requiredFields = [ 'username', 'password', 'firstName', 'lastName', ];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
