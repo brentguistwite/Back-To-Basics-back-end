@@ -99,7 +99,10 @@ router.post('/users', (req, res) => {
   }
 
   const sizedFields = {
-    username: {min: 1,},
+    username: {
+      min: 1,
+      max: 15,
+    },
     password: {
       min: 8,
       // Bcrypt truncates after 72 characters, so let's not give the illusion
