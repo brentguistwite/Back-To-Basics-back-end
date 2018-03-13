@@ -42,9 +42,11 @@ router.post('/register', (req, res) => {
     });
   }
 
-  // If the username and password aren't trimmed we give an error.
-  // We'll silently trim the other fields, because they aren't credentials used
-  // To log in, so it's less of a problem.
+  /*
+  If the username and password aren't trimmed we give an error.
+  We'll silently trim the other fields, because they aren't credentials
+  used to log in, so it's less of a problem.
+  */
   const explicityTrimmedFields = [ 'username', 'password', ];
   const nonTrimmedField = explicityTrimmedFields.find(
     field => req.body[field].trim() !== req.body[field]
@@ -126,12 +128,21 @@ router.post('/register', (req, res) => {
       return res.status(201).location(`/users/${user.id}`).json(user.serialize());
     })
     .catch((err) => {
-      // Forward validation errors on to the client, otherwise give a 500
-      // Error because something unexpected has happened
       if (err.reason === 'ValidationError') {
         return res.status(err.code).json(err);
       }
       res.status(500).json({ code: 500, message: 'Internal server error', });
+    });
+});
+
+// Provide users the ability to delete their own account
+router.delete('/:id', (req, res) => {
+  User
+    .findByIdAndRemove(req.params.id)
+    .then(() => res.status(204).end())
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ message: 'Internal Server Error', });
     });
 });
 
