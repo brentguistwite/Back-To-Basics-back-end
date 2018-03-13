@@ -129,7 +129,7 @@ router.post('/register', (req, res) => {
       });
     })
     .then((user) => {
-      return res.status(201).location(`/users/${user.id}`).json(user.apiRepr());
+      return res.status(201).location(`/users/${user.id}`).json(user.serialize());
     })
     .catch((err) => {
       // Forward validation errors on to the client, otherwise give a 500
@@ -146,7 +146,7 @@ router.post('/register', (req, res) => {
 router.get('/:id', jwtAuth, (req, res) => {
   console.log(`${req.user.username} successfully accessed all secret info.`);
   return User.findById(req.params.id)
-    .then(user => res.json(user.apiRepr()))
+    .then(user => res.json(user.serialize()))
     .catch(err => res.status(500).json({ message: 'Internal server error', }));// eslint-disable-line
 });
 
