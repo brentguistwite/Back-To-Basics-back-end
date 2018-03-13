@@ -1,13 +1,3 @@
-/*
-A) login - POST - `${API_BASE_URL}/auth/login` - body: JSON.stringify({
-               username,
-               password
-           })
-B) refreshAuthToken - POST - `${API_BASE_URL}/auth/refresh` - headers: Authorization: `Bearer ${authToken}`
-C) fetchProtectedData - GET - `${API_BASE_URL}/protected` - headers: Authorization: `Bearer ${authToken}`
-D) registerUser - POST - `${API_BASE_URL}/users` - body: JSON.stringify(user)
-
-*/
 require('dotenv').config();
 
 const express = require('express');

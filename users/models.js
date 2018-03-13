@@ -2,6 +2,14 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
+const questionSchema = new mongoose.Schema({
+  category: { type: String, required: true, },
+  content: { type: String, required: true, },
+  answer: { type: String, required: true, },
+});
+
+const Question = mongoose.model('Question', questionSchema);
+
 const UserSchema = new mongoose.Schema({
   firstName: { type: String, default: '', },
   lastName: { type: String, default: '', },
@@ -14,6 +22,13 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  questions: [
+    {
+      question_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', },
+      timesSeen: { type: Number, default: 0, },
+      timesCorrect: { type: Number, default: 0, },
+    },
+  ],
 });
 
 UserSchema.methods.serialize = function () {
@@ -24,15 +39,6 @@ UserSchema.methods.serialize = function () {
     username: this.username,
   };
 };
-
-// UserSchema.methods.apiRepr = function () {
-//   return {
-//     id: this._id,
-//     firstName: this.firstName,
-//     lastName: this.lastName,
-//     username: this.username,
-//   };
-// };
 
 UserSchema.methods.validatePassword = function (password) {
   return bcrypt.compare(password, this.password);
@@ -45,4 +51,4 @@ UserSchema.statics.hashPassword = function (password) {
 
 const User = mongoose.model('User', UserSchema);
 
-module.exports = { User, };
+module.exports = { User, Question, };

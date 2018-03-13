@@ -42,11 +42,7 @@ router.post('/register', (req, res) => {
     });
   }
 
-  // If the username and password aren't trimmed we give an error.  Users might
-  // Expect that these will work without trimming (i.e. they want the password
-  // "foobar ", including the space at the end).  We need to reject such values
-  // Explicitly so the users know what's happening, rather than silently
-  // Trimming them and expecting the user to understand.
+  // If the username and password aren't trimmed we give an error.
   // We'll silently trim the other fields, because they aren't credentials used
   // To log in, so it's less of a problem.
   const explicityTrimmedFields = [ 'username', 'password', ];
@@ -70,8 +66,7 @@ router.post('/register', (req, res) => {
     },
     password: {
       min: 8,
-      // Bcrypt truncates after 72 characters, so let's not give the illusion
-      // Of security by storing extra (unused) info
+      // Bcrypt truncates after 72 characters
       max: 72,
     },
   };
@@ -101,7 +96,6 @@ router.post('/register', (req, res) => {
 
   let { username, password, firstName = '', lastName = '', } = req.body; // eslint-disable-line
   // Username and password come in pre-trimmed, otherwise we throw an error
-  // Before this
   firstName = firstName.trim();
   lastName = lastName.trim();
 
