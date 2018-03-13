@@ -7,17 +7,13 @@ const config = require('../config');
 const router = express.Router();
 
 /*
-A) login - POST - `${API_BASE_URL}/auth/login` - body: JSON.stringify({
-               username,
-               password
-           })
-B) refreshAuthToken - POST - `${API_BASE_URL}/auth/refresh` - headers: Authorization: `Bearer ${authToken}`
-C) fetchProtectedData - GET - `${API_BASE_URL}/protected` - headers: Authorization: `Bearer ${authToken}`
-D) registerUser - POST - `${API_BASE_URL}/users` - body: JSON.stringify(user)
+https://stackoverflow.com/questions/22858699/nodejs-and-passportjs-redirect-middleware-after-passport-authenticate-not-being
 app.post('/login',
-  passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/login',
-                                   failureFlash: true })
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true,
+  })
 );
 */
 
