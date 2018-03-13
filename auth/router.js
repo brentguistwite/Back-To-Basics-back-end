@@ -14,7 +14,11 @@ A) login - POST - `${API_BASE_URL}/auth/login` - body: JSON.stringify({
 B) refreshAuthToken - POST - `${API_BASE_URL}/auth/refresh` - headers: Authorization: `Bearer ${authToken}`
 C) fetchProtectedData - GET - `${API_BASE_URL}/protected` - headers: Authorization: `Bearer ${authToken}`
 D) registerUser - POST - `${API_BASE_URL}/users` - body: JSON.stringify(user)
-
+app.post('/login',
+  passport.authenticate('local', { successRedirect: '/',
+                                   failureRedirect: '/login',
+                                   failureFlash: true })
+);
 */
 
 const createAuthToken = function (user) {
@@ -29,7 +33,7 @@ const localAuth = passport.authenticate('local', { session: false, });
 router.use(bodyParser.json());
 // The user provides a username and password to login
 router.post('/login', localAuth, (req, res) => {
-  const authToken = createAuthToken(req.user.serialize());
+  const authToken = createAuthToken(req.user.apiRepr());
   res.json({ authToken, });
 });
 

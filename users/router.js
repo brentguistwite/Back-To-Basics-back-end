@@ -13,7 +13,6 @@ router.use(bodyParser.json());
 passport.use(jwtStrategy);
 
 const jwtAuth = passport.authenticate('jwt', { session: false, });
-console.log(process.env.DATABASE_URL);
 
 // Post to register a new user
 router.post('/register', (req, res) => {
