@@ -2,16 +2,6 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-// --------------Extract this into its own file if possible ----------
-const questionSchema = new mongoose.Schema({
-  category: { type: String, required: true, },
-  content: { type: String, required: true, },
-  answer: { type: String, required: true, },
-});
-
-const Question = mongoose.model('Question', questionSchema);
-// -------------------------------------------------------------------
-
 const UserSchema = new mongoose.Schema({
   firstName: { type: String, default: '', },
   lastName: { type: String, default: '', },
@@ -54,4 +44,4 @@ UserSchema.statics.hashPassword = function (password) {
 
 const User = mongoose.model('User', UserSchema);
 
-module.exports = { User, Question, };
+module.exports = { User, };

@@ -1,0 +1,41 @@
+THIS FILE IS SIMPLY HERE AS A REFERENCE.
+
+-----CSS QUESTIONS------
+1) Which HTML attribute is used to define inline styles? -------------------> style
+2) Which CSS property is used to change the text color of an element? ------> color
+3) Write a css rule set to display links(<a>) WITHOUT an underline. --------> a{text-decoration:none;}
+4) What CSS function allows you to perfrom calculation to determine CSS property values? ----> calc()
+
+-----JAVASCRIPT QUESTIONS--------
+1) What is the built in method that allows you to add a new items to te beginning of an array? ----> unshift
+2) How can you print "Manipulating him" to the console? -----> console.log(human.family[0].hobbies[0].elliotRelatedHobbies[3])
+  const human = {
+    name: [
+      "Elliot Alderson",
+      "Mr. Robot ",
+    ],
+    age: 28,
+    family: [
+      {
+        name: "Darlene",
+        relation: "Sister",
+        hobbies: [
+          {
+            elliotRelatedHobbies: [
+              "Yelling at him",
+              "Making him feel bad",
+              "Manipulating him",
+          ],
+        }
+          "Hacking",
+          "Writing rootkits",
+        ],
+      },
+    ],
+  };
+3) How do you find the number with the highest value of x and y? ------>Math.max(x, y)
+
+------HTML QUESTIONS(DONE)-------
+1) What does HTML stand for? -----> Hyper Text Markup Language
+2) Header tags start at <h1> and end at <h?> ------> <h6>
+3) What html tag is used to draw graphics, on the fly, via scripting (usually JavaScript)? --------> <canvas>
