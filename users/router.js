@@ -150,7 +150,6 @@ router.delete('/:id', (req, res) => {
 router.get('/', (req, res) => {
   User
     .find()
-    .populate('questions.question_id')
     .then(users => res.status(201).json(users))
     .catch((err) => {
       console.error(err);
@@ -162,8 +161,7 @@ router.get('/', (req, res) => {
 // ===== Protected endpoint =====
 router.get('/:id', jwtAuth, (req, res) => {
   return User.findById(req.params.id)
-    .populate('questions.question_id')
-    .then(user => res.json(user.questions[0]))
+    .then(user => res.json(user.question))
     .catch(err => res.status(500).json({ message: 'Internal server error', }));// eslint-disable-line
 });
 
