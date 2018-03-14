@@ -47,7 +47,7 @@ class LinkedList {
       previousNode = currentNode;
       currentNode = currentNode.next;
       if (currentNode === null) {
-        throw new Error('Couldn\'t perform this action. Check you inputs and try again!');
+        throw new Error('Couldn\'t perform this action. Check your inputs and try again!');
       }
     }
     previousNode.next = new _Node(newItem, currentNode);
