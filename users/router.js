@@ -122,6 +122,18 @@ router.post('/', (req, res) => {
         password: digest,
         firstName,
         lastName,
+        questions: [
+          { question_id: '5aa7f9b6734d1d6b712051c5', },
+          { question_id: '5aa808b4734d1d6b71205d0a', },
+          { question_id: '5aa80915734d1d6b71205d34', },
+          { question_id: '5aa809b1734d1d6b71205e0c', },
+          { question_id: '5aa80a14734d1d6b71205e9f', },
+          { question_id: '5aa80a36734d1d6b71205ee9', },
+          { question_id: '5aa80a66734d1d6b71205ef9', },
+          { question_id: '5aa80a95734d1d6b71205f2d', },
+          { question_id: '5aa80b02734d1d6b71205f4d', },
+          { question_id: '5aa80958734d1d6b71205db6', },
+        ],
       });
     })
     .then((user) => {
@@ -140,6 +152,17 @@ router.delete('/:id', (req, res) => {
   User
     .findByIdAndRemove(req.params.id)
     .then(() => res.status(204).end())
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ message: 'Internal Server Error', });
+    });
+});
+
+router.get('/', (req, res) => {
+  User
+    .find()
+    .populate('questions.question_id')
+    .then(users => res.status(201).json(users))
     .catch((err) => {
       console.error(err);
       res.status(500).json({ message: 'Internal Server Error', });

@@ -1,6 +1,8 @@
 const express = require('express');
 
 const { Question, } = require('./models');
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
 const router = express.Router();
 
