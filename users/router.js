@@ -174,8 +174,11 @@ router.get('/', (req, res) => {
 router.get('/:id', jwtAuth, (req, res) => {
   return User.findById(req.params.id)
     .populate('questions.question_id')
-    .then(user => res.json(user.serialize().questions))
+    .then(user => res.json(user.questions[0]))
     .catch(err => res.status(500).json({ message: 'Internal server error', }));// eslint-disable-line
 });
 
 module.exports = { router, };
+
+
+// always return first question
