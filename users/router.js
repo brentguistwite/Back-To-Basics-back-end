@@ -131,7 +131,7 @@ router.post('/', (req, res) => {
           { question_id: '5aa80a36734d1d6b71205ee9', },
           { question_id: '5aa80a66734d1d6b71205ef9', },
           { question_id: '5aa80a95734d1d6b71205f2d', },
-          { question_id: '5aa80b02734d1d6b71205f4d', },
+          { question_id: '5aa96d66f36d2876ecd36f37', },
           { question_id: '5aa80958734d1d6b71205db6', },
         ],
       });
@@ -172,9 +172,9 @@ router.get('/', (req, res) => {
 
 // ===== Protected endpoint =====
 router.get('/:id', jwtAuth, (req, res) => {
-  console.log(`${req.user.username} successfully accessed all secret info.`);
   return User.findById(req.params.id)
-    .then(user => res.json(user.serialize()))
+    .populate('questions.question_id')
+    .then(user => res.json(user.serialize().questions))
     .catch(err => res.status(500).json({ message: 'Internal server error', }));// eslint-disable-line
 });
 
