@@ -34,8 +34,9 @@ THIS FILE IS SIMPLY HERE AS A REFERENCE.
     ],
   };
 3) How do you find the number with the highest value of x and y? ------>Math.max(x, y)
+4) What will the following code print out?\r\n\r\nconst animals = [ 'Dodo', 'Tiger', 'Penguin', 'Dodo' ];\r\nconsole.log(animals.lastIndexOf('Dodo')); ->>>>> 3
 
 ------HTML QUESTIONS(DONE)-------
 1) What does HTML stand for? -----> Hyper Text Markup Language
 2) Header tags start at <h1> and end at <h?> ------> <h6>
-3) What html tag is used to draw graphics, on the fly, via scripting (usually JavaScript)? --------> <canvas>
+3) What html tag is used to draw graphics, on the fly, via scripting (<write answer like this>)? --------> <canvas>
