@@ -179,6 +179,3 @@ router.get('/:id', jwtAuth, (req, res) => {
 });
 
 module.exports = { router, };
-
-
-// always return first question
