@@ -7,28 +7,27 @@ data.forEach(item => baseList.insertLast(item));
 
 // If mem val > list size set to list size
 const algorithm = ( questionsList, userAnswer ) => {
-  const { head, } = questionsList;
+  let { memoryValue, timesSeen, timesCorrect, answer, } = questionsList.head.value; // eslint-disable-line
+
   // User answered corectly
-  if ( userAnswer === head.value.answer ) {
-    questionsList.head.value.memoryValue *= 2;
-    head.value.timesCorrect ++;
-    questionsList.insertAt( questionsList.head, head.value.memoryValue );
+  if ( userAnswer === answer ) {
+    const size = questionsList.size();
+    // Make sure we're not trying to move item
+    if ( memoryValue >= size ) {
+      memoryValue = size - 1;
+    } else {
+      memoryValue *= 2;
+    }
+    timesCorrect ++;
+    questionsList.insertAt( questionsList.head, memoryValue );
   }
   // User answered incorrectly
   else {
-    questionsList.head.value.memoryValue = 1;
-    questionsList.insertAt( questionsList.head, head.value.memoryValue );
+    memoryValue = 1;
+    questionsList.insertAt( questionsList.head, memoryValue );
   }
-  head.value.timesSeen ++;
+  timesSeen ++;
 };
-// console.log('----------BEFORE----------', baseList.display());
-// algorithm ( baseList, 'color' );
-// console.log('----------AFTER----------', baseList.display());
-// algorithm ( baseList, 'unshift' );
-// console.log('----------AFTER AGAIN----------', baseList.display());
-// algorithm(baseList, 'color');
-// console.log('----------AFTER FINALLY----------', baseList.display());
-console.log(baseList.peek());
 
 module.exports = algorithm;
 

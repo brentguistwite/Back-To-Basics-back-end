@@ -169,9 +169,7 @@ router.get('/', (req, res) => {
 // ===== Protected endpoints =====
 router.put('/:id', jwtAuth, (req, res) => {
   console.log(req.body);
-  // return User.findByIdAndUpdate(req.params.id,
-  //   {questions}
-  // )  
+  return User.findByIdAndUpdate(req.params.id,{ $set: req })  
 });
 
 router.get('/:id', jwtAuth, (req, res) => {
