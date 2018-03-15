@@ -169,7 +169,7 @@ router.get('/', (req, res) => {
 });
 
 
-// ===== Protected endpoint =====
+// ===== Protected endpoints =====
 router.get('/:id', jwtAuth, (req, res) => {
   return User.findById(req.params.id)
     .then(user => res.json(user.question))
@@ -177,3 +177,8 @@ router.get('/:id', jwtAuth, (req, res) => {
 });
 
 module.exports = { router, };
+
+
+/*
+The second role is to integrate the spaced repetition algorithm into your app. It should have an endpoint for the frontend to fetch the next question from, and an endpoint for the frontend to record what the user's response was.
+*/
