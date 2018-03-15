@@ -11,16 +11,6 @@ class LinkedList {
     this.head = null;
   }
 
-  // If answer is incorrect reset value to 1
-  resetMemoryValue () {
-    this.head.value.memoryValue = 1;
-  }
-
-  // If answer is right double its value
-  doubleMemoryValue () {
-    this.head.value.memoryValue *= 2;
-  }
-
   insertLast (item) {
     if (this.head === null) {
       this.head = new _Node(item, null);

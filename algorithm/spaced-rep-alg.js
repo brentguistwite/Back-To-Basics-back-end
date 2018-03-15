@@ -5,28 +5,30 @@ const data = require('./../questions/questions');
 const baseList = new LinkedList();
 data.forEach(item => baseList.insertLast(item));
 
+// If mem val > list size set to list size
 const algorithm = ( questionsList, userAnswer ) => {
   const { head, } = questionsList;
   // User answered corectly
   if ( userAnswer === head.value.answer ) {
-    questionsList.doubleMemoryValue();
+    questionsList.head.value.memoryValue *= 2;
     head.value.timesCorrect ++;
     questionsList.insertAt( questionsList.head, head.value.memoryValue );
   }
   // User answered incorrectly
   else {
-    questionsList.resetMemoryValue();
+    questionsList.head.value.memoryValue = 1;
     questionsList.insertAt( questionsList.head, head.value.memoryValue );
   }
   head.value.timesSeen ++;
 };
-console.log('----------BEFORE----------', baseList.display());
-algorithm ( baseList, 'color' );
-console.log('----------AFTER----------', baseList.display());
-algorithm ( baseList, 'unshift' );
-console.log('----------AFTER AGAIN----------', baseList.display());
-algorithm(baseList, 'color');
-console.log('----------AFTER FINALLY----------', baseList.display());
+// console.log('----------BEFORE----------', baseList.display());
+// algorithm ( baseList, 'color' );
+// console.log('----------AFTER----------', baseList.display());
+// algorithm ( baseList, 'unshift' );
+// console.log('----------AFTER AGAIN----------', baseList.display());
+// algorithm(baseList, 'color');
+// console.log('----------AFTER FINALLY----------', baseList.display());
+console.log(baseList.peek());
 
 module.exports = algorithm;
 
@@ -52,5 +54,17 @@ ELSE(incorrect)
 
 present user with new first question(head)
 
+LL = {
+    head: {
+        value: {
+            question: 'how many ....?',
+            answer: '3',
+
+        }
+    }
+    next: {
+
+    }
+}
 
 */
