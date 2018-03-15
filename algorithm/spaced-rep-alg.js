@@ -1,3 +1,9 @@
+/**
+ * @param  {Object} questionsList Linked list containing question related data
+ * @param  {String} userAnswer Answer provided by client
+ * @returns {Object} Newly sorted linked list of questions based on their memoryValue
+ */
+
 const algorithm = ( questionsList, userAnswer ) => {
   let { memoryValue, timesSeen, timesCorrect, answer, } = questionsList.head.value; // eslint-disable-line
 
@@ -19,6 +25,7 @@ const algorithm = ( questionsList, userAnswer ) => {
     questionsList.insertAt( questionsList.head, memoryValue );
   }
   timesSeen ++;
+  return questionsList;
 };
 
 module.exports = algorithm;
