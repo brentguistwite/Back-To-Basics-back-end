@@ -11,12 +11,13 @@ class LinkedList {
     this.head = null;
   }
 
-  memoryValueReset () {
-    
+  // If answer is wrong reset value to 1
+  resetMemoryValue () {
+    this.head.value.memoryValue = 1;
   }
-
-  memoryValueDouble () {
-    
+  // If answer is right double its value
+  doubleMemoryValue () {
+    this.head.value.memoryValue *= 2;
   }
 
   insertFirst (item) {
