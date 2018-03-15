@@ -4,10 +4,6 @@ const LinkedList = require('./linked-list');
 const data = require('./../questions/questions');
 const baseList = new LinkedList();
 data.forEach(item => baseList.insertLast(item));
-console.log('----------BEFORE----------', baseList.display());
-baseList.doubleMemoryValue();
-baseList.insertAt(baseList.head, baseList.head.value.memoryValue);
-console.log('----------AFTER----------', baseList.display());
 
 const algorithm = ( questionsList, userAnswer ) => {
   const { head, } = questionsList;
@@ -15,14 +11,20 @@ const algorithm = ( questionsList, userAnswer ) => {
   if ( userAnswer === head.value.answer ) {
     questionsList.doubleMemoryValue();
     head.value.timesCorrect ++;
-    questionsList.insertAt(questionsList.head, head.value.memoryValue);
+    questionsList.insertAt( questionsList.head, head.value.memoryValue );
   }
   // User answered incorrectly
   else {
     questionsList.resetMemoryValue();
-    questionsList.insertAt(questionsList.head, head.value.memoryValue);
+    questionsList.insertAt( questionsList.head, head.value.memoryValue );
   }
   head.value.timesSeen ++;
 };
-
+console.log('----------BEFORE----------', baseList.display());
+algorithm ( baseList, 'color' );
+console.log('----------AFTER----------', baseList.display());
+algorithm ( baseList, 'unshift' );
+console.log('----------AFTER AGAIN----------', baseList.display());
+algorithm(baseList, 'color');
+console.log('----------AFTER FINALLY----------', baseList.display());
 
