@@ -167,20 +167,31 @@ router.get('/', (req, res) => {
 
 
 // ===== Protected endpoints =====
-router.put('/:id', jwtAuth, (req, res) => {
-  console.log(req.body);
-  return User.findByIdAndUpdate(req.params.id,{ $set: req })  
-});
+
 
 router.get('/:id', jwtAuth, (req, res) => {
-  return User.findById(req.params.id)
+  return User
+    .findById(req.params.id)
     .then(user => res.json(user.questions.head.value))
-    .catch(err => res.status(500).json({ message: 'Internal server error', }));// eslint-disable-line
+    .catch(err => res.status(500).json({ message: 'Internal server error', }));
+});
+
+router.put('/:id', jwtAuth, (req, res) => {
+  const { answer, } = req.body;
+  return User
+    .findById(req.params.id)
+    .then(user => {
+      console.log('========BEFORE FROM PUT========', user.questions);
+      algorithm ( user.questions, answer );
+      console.log('========AFTER FROM PUT========', user.questions)
+    })
+    .catch(e => console.error(e));
+    // .then( feedback => 
+    //   User.findByIdAndUpdate(req.params.id)
+    // )
+  
+
+  // return User.findByIdAndUpdate(req.params.id, { $set:  })
 });
 
 module.exports = { router, };
-
-
-/*
-The second role is to integrate the spaced repetition algorithm into your app. It should have an endpoint for the frontend to fetch the next question from, and an endpoint for the frontend to record what the user's response was.
-*/

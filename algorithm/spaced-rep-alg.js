@@ -1,12 +1,13 @@
 /**
  * @param  {Object} questionsList Linked list containing question related data
  * @param  {String} userAnswer Answer provided by client
- * @returns {Object} Newly sorted linked list of questions based on their memoryValue
+ * @returns {Boolean} True if the answer was correct or false if incorrect
  */
 
 const algorithm = ( questionsList, userAnswer ) => {
+  console.log('LOOK AT ME ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',JSON.stringify(questionsList));
   let { memoryValue, timesSeen, timesCorrect, answer, } = questionsList.head.value; // eslint-disable-line
-
+  let feedback = false;
   // User answered corectly
   if ( userAnswer === answer ) {
     const size = questionsList.size();
@@ -16,6 +17,7 @@ const algorithm = ( questionsList, userAnswer ) => {
     } else {
       memoryValue *= 2;
     }
+    feedback = true;
     timesCorrect ++;
     questionsList.insertAt( questionsList.head, memoryValue );
   }
@@ -25,7 +27,7 @@ const algorithm = ( questionsList, userAnswer ) => {
     questionsList.insertAt( questionsList.head, memoryValue );
   }
   timesSeen ++;
-  return questionsList;
+  return feedback;
 };
 
 module.exports = algorithm;
