@@ -1,13 +1,23 @@
+const LinkedList = require('./linked-list');
+
+// Our base set of questions/answers with default values
+const data = require('./../questions/questions');
+const baseList = new LinkedList();
+data.forEach(item => baseList.insertLast(item));
+
 /**
- * @param list - Linked list of questions
+ * @param  {} list - Linked list of questions
+ * @param  {} bool - True or False representing a correct or incorrect answer
  */
 
-function questionSorter (list) {
-  
-}
 
 
-module.exports = questionSorter;
+
+
+
+// If answer is wrong reset value to 1
+
+
 
 /*
 
