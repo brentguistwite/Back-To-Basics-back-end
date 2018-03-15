@@ -1,18 +1,10 @@
-const LinkedList = require('./linked-list');
-
-// Our base set of questions/answers with default values
-const data = require('./../questions/questions');
-const baseList = new LinkedList();
-data.forEach(item => baseList.insertLast(item));
-
-// If mem val > list size set to list size
 const algorithm = ( questionsList, userAnswer ) => {
   let { memoryValue, timesSeen, timesCorrect, answer, } = questionsList.head.value; // eslint-disable-line
 
   // User answered corectly
   if ( userAnswer === answer ) {
     const size = questionsList.size();
-    // Make sure we're not trying to move item
+    // Make sure we're not trying to move item to a position that doesnt exist
     if ( memoryValue >= size ) {
       memoryValue = size - 1;
     } else {
