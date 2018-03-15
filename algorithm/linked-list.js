@@ -57,7 +57,7 @@ class LinkedList {
     if (this.head === null) {
       throw new Error('Item not found');
     }
-    return this.head;
+    return this.head.value;
   }
 }
 

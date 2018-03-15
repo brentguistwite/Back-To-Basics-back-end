@@ -12,6 +12,7 @@ const LinkedList = require('./../algorithm/linked-list');
 const data = require('./../questions/questions');
 const baseList = new LinkedList();
 data.forEach(item => baseList.insertLast(item));
+console.log(baseList.peek());
 
 const router = express.Router();
 const jwtAuth = passport.authenticate('jwt', { session: false, });
