@@ -15,7 +15,7 @@ const algorithm = ( questionsList, userAnswer ) => {
   if ( userAnswer === head.value.answer ) {
     questionsList.doubleMemoryValue();
     head.value.timesCorrect ++;
-    questionsList.insertAt(head.value.memoryValue);
+    questionsList.insertAt(questionsList.head, head.value.memoryValue);
   }
   // User answered incorrectly
   else {
