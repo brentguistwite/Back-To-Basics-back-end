@@ -21,15 +21,6 @@ class LinkedList {
     this.head.value.memoryValue *= 2;
   }
 
-  insertFirst (item) {
-    if (this.head === null) {
-      this.head = new _Node(item, null);
-    } else {
-      const currentPointer = this.head;
-      this.head = new _Node(item, currentPointer);
-    }
-  }
-
   insertLast (item) {
     if (this.head === null) {
       this.head = new _Node(item, null);
@@ -43,24 +34,27 @@ class LinkedList {
     }
   }
 
-  insertAt (newItem, position) {
-    // List is empty or insertion point is the beginning
-    if (this.head === null || position === 1) {
-      this.insertFirst(newItem);
+  insertAt ( item, position ) {
+    // List is empty
+    if ( this.head === null ) {
+      this.insertFirst( item );
     }
 
     let currentNode = this.head;
     let previousNode;
 
     // Initialize at 1 to loop through to the end node
-    for (let i = 1; i < position; i++) {
+    for ( let i = 0; i <= position; i++ ) {
       previousNode = currentNode;
       currentNode = currentNode.next;
-      if (currentNode === null) {
-        throw new Error('Couldn\'t perform this action. Check your inputs and try again!');
+      if ( currentNode === null ) {
+        throw new Error( 'Couldn\'t perform this action. Check your inputs and try again!' );
       }
     }
-    previousNode.next = new _Node(newItem, currentNode);
+    // Point head to second item in list
+    this.head = this.head.next;
+    previousNode.next = item;
+    item.next = currentNode;
   }
 
   peek () {
@@ -68,6 +62,16 @@ class LinkedList {
       throw new Error('Item not found');
     }
     return this.head.value;
+  }
+
+  display () {
+    const results = [];
+    let currentNode = this.head;
+    while (currentNode !== null) {
+      results.push(currentNode.value);
+      currentNode = currentNode.next;
+    }
+    return results;
   }
 }
 
