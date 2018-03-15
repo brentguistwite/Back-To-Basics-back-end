@@ -11,6 +11,7 @@ class LinkedList {
     this.head = null;
   }
 
+  // If answer is incorrect reset value to 1
   resetMemoryValue () {
     this.head.value.memoryValue = 1;
   }
