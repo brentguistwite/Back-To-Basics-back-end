@@ -7,15 +7,12 @@ const mongoose = require('mongoose');
 const { jwtStrategy, } = require('./../auth/strategies');
 const User = require('./models');
 const LinkedList = require('./../algorithm/linked-list');
+const data = require('./../questions/questions');
 
 // Our base set of questions/answers with default values
-const data = require('./../questions/questions');
 const baseList = new LinkedList();
 data.forEach(item => baseList.insertLast(item));
-console.log('----------BEFORE----------', baseList.display());
-baseList.doubleMemoryValue();
-baseList.insertAt(baseList.head, baseList.head.value.memoryValue);
-console.log('----------AFTER----------', baseList.display());
+
 
 
 const router = express.Router();
