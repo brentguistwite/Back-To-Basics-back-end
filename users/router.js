@@ -3,16 +3,25 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
+
 const { jwtStrategy, } = require('./../auth/strategies');
-const { User, } = require('./models');
+const User = require('./models');
+const LinkedList = require('./../algorithm/linked-list');
+
+// Our base set of questions/answers with default values
+const data = require('./../questions/questions');
+const baseList = new LinkedList();
+data.forEach(item => baseList.insertLast(item));
+
 const router = express.Router();
+const jwtAuth = passport.authenticate('jwt', { session: false, });
 
 mongoose.Promise = global.Promise;
 
 router.use(bodyParser.json());
 passport.use(jwtStrategy);
 
-const jwtAuth = passport.authenticate('jwt', { session: false, });
+
 
 // Post to register a new user
 router.post('/', (req, res) => {
@@ -122,7 +131,7 @@ router.post('/', (req, res) => {
         password: digest,
         firstName,
         lastName,
-        questions,
+        questions: baseList,
       });
     })
     .then((user) => {

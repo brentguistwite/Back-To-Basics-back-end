@@ -14,13 +14,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  questions: [
-    {
-      memoryValue: { type: Number, default: 0.5, },
-      timesSeen: { type: Number, default: 0, },
-      timesCorrect: { type: Number, default: 0, },
-    },
-  ],
+  questions: { type: Object, },
 });
 
 UserSchema.methods.serialize = function () {
@@ -43,4 +37,4 @@ UserSchema.statics.hashPassword = function (password) {
 
 const User = mongoose.model('User', UserSchema);
 
-module.exports = { User, };
+module.exports = User;

@@ -2,8 +2,8 @@
  * @param list - Linked list of questions
  */
 
-function questionSorter (listist) {
-
+function questionSorter (list) {
+  
 }
 
 
