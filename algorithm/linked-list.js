@@ -52,6 +52,13 @@ class LinkedList {
     }
     previousNode.next = new _Node(newItem, currentNode);
   }
+
+  peek () {
+    if (this.head === null) {
+      throw new Error('Item not found');
+    }
+    return this.head;
+  }
 }
 
 module.exports = LinkedList;
