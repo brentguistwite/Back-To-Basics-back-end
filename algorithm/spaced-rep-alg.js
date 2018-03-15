@@ -5,19 +5,30 @@ const data = require('./../questions/questions');
 const baseList = new LinkedList();
 data.forEach(item => baseList.insertLast(item));
 
-/**
- * @param  {} list - Linked list of questions
- * @param  {} bool - True or False representing a correct or incorrect answer
- */
+const algorithm = ( questionsList, userAnswer ) => {
+  const { head, } = questionsList;
+  // User answered corectly
+  if ( userAnswer === head.value.answer ) {
+    questionsList.doubleMemoryValue();
+    head.value.timesCorrect ++;
+    questionsList.insertAt( questionsList.head, head.value.memoryValue );
+  }
+  // User answered incorrectly
+  else {
+    questionsList.resetMemoryValue();
+    questionsList.insertAt( questionsList.head, head.value.memoryValue );
+  }
+  head.value.timesSeen ++;
+};
+console.log('----------BEFORE----------', baseList.display());
+algorithm ( baseList, 'color' );
+console.log('----------AFTER----------', baseList.display());
+algorithm ( baseList, 'unshift' );
+console.log('----------AFTER AGAIN----------', baseList.display());
+algorithm(baseList, 'color');
+console.log('----------AFTER FINALLY----------', baseList.display());
 
-
-
-
-
-
-// If answer is wrong reset value to 1
-
-
+module.exports = algorithm;
 
 /*
 

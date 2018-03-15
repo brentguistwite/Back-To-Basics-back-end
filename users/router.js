@@ -5,15 +5,10 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 
 const { jwtStrategy, } = require('./../auth/strategies');
+const algorithm = require('./../algorithm/spaced-rep-alg');
 const User = require('./models');
 const LinkedList = require('./../algorithm/linked-list');
 const data = require('./../questions/questions');
-
-// Our base set of questions/answers with default values
-const baseList = new LinkedList();
-data.forEach(item => baseList.insertLast(item));
-
-
 
 const router = express.Router();
 const jwtAuth = passport.authenticate('jwt', { session: false, });
@@ -24,11 +19,13 @@ router.use(bodyParser.json());
 passport.use(jwtStrategy);
 
 
-
 // Post to register a new user
 router.post('/', (req, res) => {
   const requiredFields = [ 'username', 'password', 'firstName', 'lastName', ];
   const missingField = requiredFields.find(field => !(field in req.body));
+  // Our base set of questions/answers with default values
+  const baseList = new LinkedList();
+  data.forEach(item => baseList.insertLast(item));
 
   if (missingField) {
     return res.status(422).json({
@@ -170,9 +167,16 @@ router.get('/', (req, res) => {
 
 
 // ===== Protected endpoints =====
+router.put('/:id', jwtAuth, (req, res) => {
+  console.log(req.body);
+  // return User.findByIdAndUpdate(req.params.id,
+  //   {questions}
+  // )  
+});
+
 router.get('/:id', jwtAuth, (req, res) => {
   return User.findById(req.params.id)
-    .then(user => res.json(user.question))
+    .then(user => res.json(user.questions.head.value))
     .catch(err => res.status(500).json({ message: 'Internal server error', }));// eslint-disable-line
 });
 
