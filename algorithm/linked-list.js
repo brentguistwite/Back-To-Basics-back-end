@@ -11,6 +11,14 @@ class LinkedList {
     this.head = null;
   }
 
+  memoryValueReset () {
+    
+  }
+
+  memoryValueDouble () {
+    
+  }
+
   insertFirst (item) {
     if (this.head === null) {
       this.head = new _Node(item, null);
