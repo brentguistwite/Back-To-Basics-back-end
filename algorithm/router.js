@@ -28,3 +28,4 @@ console.log('----------AFTER AGAIN----------', baseList.display());
 algorithm(baseList, 'color');
 console.log('----------AFTER FINALLY----------', baseList.display());
 
+module.exports = algorithm;
