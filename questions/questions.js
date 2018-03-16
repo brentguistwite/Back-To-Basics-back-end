@@ -18,7 +18,7 @@ const data = [
   {
     category: 'html',
     question: 'What does HTML stand for?',
-    answer: 'hyper text markup language',
+    answer: 'hypertext markup language',
     timesSeen: 0,
     timesCorrect: 0,
     memoryValue: 0.5,
