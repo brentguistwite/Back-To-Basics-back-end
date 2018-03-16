@@ -2,13 +2,13 @@
 class _Node {
   constructor(value, next) {
     this.value = value,
-      this.next = next;
+    this.next = next;
   }
 }
 
 class LinkedList {
-  constructor(head = null) {
-    this.head = head.head;
+  constructor(head) {
+    this.head = head === undefined? null : head.head;
   }
 
   insertLast(item) {
@@ -41,7 +41,6 @@ class LinkedList {
 
   doubleMemValue() {
     const size = this.size();
-    this.head.value.memoryValue = 30;
     // Make sure we're not trying to move item to a position that doesnt exist
     this.head.value.timesCorrect++;
     this.head.value.timesSeen++;
