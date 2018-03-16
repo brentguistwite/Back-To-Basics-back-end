@@ -14,13 +14,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  questions: [
-    { // Provide a reference to the questions to avoid duplicates and improve scalability
-      question_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', },
-      timesSeen: { type: Number, default: 0, },
-      timesCorrect: { type: Number, default: 0, },
-    },
-  ],
+  questions: { type: Object, },
 });
 
 UserSchema.methods.serialize = function () {
@@ -35,7 +29,6 @@ UserSchema.methods.serialize = function () {
 
 UserSchema.methods.validatePassword = function (password) {
   return bcrypt.compare(password, this.password);
-  // Return password === this.password;
 };
 
 UserSchema.statics.hashPassword = function (password) {
@@ -44,4 +37,4 @@ UserSchema.statics.hashPassword = function (password) {
 
 const User = mongoose.model('User', UserSchema);
 
-module.exports = { User, };
+module.exports = User;

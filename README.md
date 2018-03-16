@@ -10,20 +10,6 @@ Reset M to 1
 Move the question back M places in the list
 You can use a singly linked list to do this
 
-AB
-ABC
-ACBDC
-ADB...
-
-Notice how the spacing between the questions gets longer as you go on. So subsequent tests on question A are separated by one question (B), then two questions (BC), then four questions (CBDC). And the same thing happens with question B and question C. If you got one of the questions wrong then you would reduce the spacing for that question to make sure that the correct answer is.
-
-
-a:1
-b:1
-c:1
-d:1
-e:1
-f:1
 
 present user 
         1    1    1    1    1    1

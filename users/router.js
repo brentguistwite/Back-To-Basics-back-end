@@ -3,21 +3,29 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
+
 const { jwtStrategy, } = require('./../auth/strategies');
-const { User, } = require('./models');
+const algorithm = require('./../algorithm/spaced-rep-alg');
+const User = require('./models');
+const LinkedList = require('./../algorithm/linked-list');
+const data = require('./../questions/questions');
+
 const router = express.Router();
+const jwtAuth = passport.authenticate('jwt', { session: false, });
 
 mongoose.Promise = global.Promise;
 
 router.use(bodyParser.json());
 passport.use(jwtStrategy);
 
-const jwtAuth = passport.authenticate('jwt', { session: false, });
 
 // Post to register a new user
 router.post('/', (req, res) => {
   const requiredFields = [ 'username', 'password', 'firstName', 'lastName', ];
   const missingField = requiredFields.find(field => !(field in req.body));
+  // Our base set of questions/answers with default values
+  const baseList = new LinkedList();
+  data.forEach(item => baseList.insertLast(item));
 
   if (missingField) {
     return res.status(422).json({
@@ -96,7 +104,7 @@ router.post('/', (req, res) => {
     });
   }
 
-  let { username, password, firstName = '', lastName = '', } = req.body; // eslint-disable-line
+  let { username, password, firstName = '', lastName = '', questions } = req.body; // eslint-disable-line
   // Username and password come in pre-trimmed, otherwise we throw an error
   firstName = firstName.trim();
   lastName = lastName.trim();
@@ -122,18 +130,7 @@ router.post('/', (req, res) => {
         password: digest,
         firstName,
         lastName,
-        questions: [
-          { question_id: '5aa7f9b6734d1d6b712051c5', },
-          { question_id: '5aa808b4734d1d6b71205d0a', },
-          { question_id: '5aa80915734d1d6b71205d34', },
-          { question_id: '5aa809b1734d1d6b71205e0c', },
-          { question_id: '5aa80a14734d1d6b71205e9f', },
-          { question_id: '5aa80a36734d1d6b71205ee9', },
-          { question_id: '5aa80a66734d1d6b71205ef9', },
-          { question_id: '5aa80a95734d1d6b71205f2d', },
-          { question_id: '5aa96d66f36d2876ecd36f37', },
-          { question_id: '5aa80958734d1d6b71205db6', },
-        ],
+        questions: baseList,
       });
     })
     .then((user) => {
@@ -161,7 +158,6 @@ router.delete('/:id', (req, res) => {
 router.get('/', (req, res) => {
   User
     .find()
-    .populate('questions.question_id')
     .then(users => res.status(201).json(users))
     .catch((err) => {
       console.error(err);
@@ -170,12 +166,35 @@ router.get('/', (req, res) => {
 });
 
 
-// ===== Protected endpoint =====
+// ===== Protected endpoints =====
+
 router.get('/:id', jwtAuth, (req, res) => {
-  return User.findById(req.params.id)
-    .populate('questions.question_id')
-    .then(user => res.json(user.questions[0]))
-    .catch(err => res.status(500).json({ message: 'Internal server error', }));// eslint-disable-line
+  return User
+    .findById(req.params.id)
+    .then(user => res.json(user.questions.head.value))
+    .catch(err => res.status(500).json({ message: 'Internal server error', }));
+});
+
+router.put('/:id', jwtAuth, (req, res) => {
+  const { answer, } = req.body;
+  let feedback;
+  User
+    .findById(req.params.id)
+    .then((user) => {
+      const list = new LinkedList(user.questions);
+      feedback = algorithm(list, answer);
+      return list;
+    })
+    .then((list) => {
+      console.log(list.peek());
+      return User
+        .update(
+          { _id: req.params.id, },
+          { questions: list, }
+        );
+    })
+    .then(() => res.json(feedback))
+    .catch(err => res.status(500).json({ message: 'Internal server error', }));
 });
 
 module.exports = { router, };

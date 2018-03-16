@@ -8,7 +8,6 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const { router: usersRouter, } = require('./users');
 const { router: authRouter, localStrategy, jwtStrategy, } = require('./auth');
-const { router: questionsRouter, } = require('./questions/router');
 
 const {PORT, CLIENT_ORIGIN,} = require('./config');
 const {dbConnect,} = require('./db-mongoose');
@@ -29,7 +28,6 @@ app.use(
 
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
-app.use('/questions', questionsRouter);
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);
