@@ -28,12 +28,10 @@ class LinkedList {
     let currentNode = this.head;
     let previousNode;
 
-    // Initialize at 1 to loop through to the end node
     for (let i = 0; i <= position; i++) {
       previousNode = currentNode;
       currentNode = currentNode.next;
     }
-    // Point head to second item in list
     this.head = this.head.next;
     previousNode.next = item;
     item.next = currentNode;

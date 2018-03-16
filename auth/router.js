@@ -6,17 +6,6 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const router = express.Router();
 
-/*
-https://stackoverflow.com/questions/22858699/nodejs-and-passportjs-redirect-middleware-after-passport-authenticate-not-being
-app.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true
-  })
-);
-*/
-
 const createAuthToken = function (user) {
   return jwt.sign({ user, }, config.JWT_SECRET, {
     subject: user.username,

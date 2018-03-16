@@ -42,7 +42,7 @@ const jwtStrategy = new JwtStrategy(
     // Look for the JWT as a Bearer auth header
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
     // Only allow HS256 tokens - the same as the ones we issue
-    algorithms: ['HS256',],
+    algorithms: [ 'HS256', ],
   },
   (payload, done) => {
     done(null, payload.user);
