@@ -24,7 +24,7 @@ const data = [
     memoryValue: 0.5,
   },
   {
-    category: 'css',
+    category: 'html',
     question: 'Which HTML attribute is used to define inline styles?',
     answer: 'style',
     timesSeen: 0,

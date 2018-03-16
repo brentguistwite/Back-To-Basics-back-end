@@ -168,7 +168,6 @@ router.get('/', (req, res) => {
 
 // ===== Protected endpoints =====
 
-
 router.get('/:id', jwtAuth, (req, res) => {
   return User
     .findById(req.params.id)
@@ -178,20 +177,20 @@ router.get('/:id', jwtAuth, (req, res) => {
 
 router.put('/:id', jwtAuth, (req, res) => {
   const { answer, } = req.body;
-  return User
+  User
     .findById(req.params.id)
-    .then(user => {
-      console.log('========BEFORE FROM PUT========', user.questions);
-      algorithm ( user.questions, answer );
-      console.log('========AFTER FROM PUT========', user.questions)
+    .then((user) => {
+      const temp = new LinkedList(user.questions);
+      return {feedback: algorithm(temp, answer), temp};
     })
-    .catch(e => console.error(e));
-    // .then( feedback => 
-    //   User.findByIdAndUpdate(req.params.id)
-    // )
-  
+    .then((data) => {
+      console.log(data);
+      // User
+      //   .findByIdAndUpdate(req.params.id, {$set: })
+    });
 
-  // return User.findByIdAndUpdate(req.params.id, { $set:  })
+
+  // Return User.findByIdAndUpdate(req.params.id, { $set:  })
 });
 
 module.exports = { router, };

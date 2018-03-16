@@ -4,31 +4,29 @@
  * @returns {Boolean} True if the answer was correct or false if incorrect
  */
 
-const algorithm = ( questionsList, userAnswer ) => {
-  console.log('LOOK AT ME ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',JSON.stringify(questionsList));
+const algorithm = (questionsList, userAnswer) => {
   let { memoryValue, timesSeen, timesCorrect, answer, } = questionsList.head.value; // eslint-disable-line
   let feedback = false;
-  // User answered corectly
-  if ( userAnswer === answer ) {
+  // User answered correctly
+  if (userAnswer === answer) {
     const size = questionsList.size();
     // Make sure we're not trying to move item to a position that doesnt exist
-    if ( memoryValue >= size ) {
-      memoryValue = size - 1;
-    } else {
-      memoryValue *= 2;
-    }
+    memoryValue = Math.min(size - 1, memoryValue * 2);
     feedback = true;
-    timesCorrect ++;
-    questionsList.insertAt( questionsList.head, memoryValue );
+    timesCorrect++;
   }
   // User answered incorrectly
   else {
     memoryValue = 1;
-    questionsList.insertAt( questionsList.head, memoryValue );
   }
-  timesSeen ++;
+  console.log('BEFORE', questionsList.display());
+  questionsList.insertAt(questionsList.head, memoryValue);
+  console.log('AFTER', questionsList.display());
+
+  timesSeen++;
   return feedback;
 };
+
 
 module.exports = algorithm;
 

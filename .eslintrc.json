@@ -24,6 +24,9 @@
     }
   },
   "rules": {
+    "no-unused-vars": [
+      1
+    ],
     "indent": [
       "error",
       2
@@ -123,10 +126,6 @@
     ],
     "space-before-blocks": [
       1
-    ],
-    "space-before-function-paren": [
-      "error",
-      "always"
     ],
     "arrow-parens": [
       1,
