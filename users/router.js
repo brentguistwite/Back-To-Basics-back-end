@@ -186,7 +186,6 @@ router.put('/:id', jwtAuth, (req, res) => {
       return list;
     })
     .then((list) => {
-      console.log(list.peek());
       return User
         .update(
           { _id: req.params.id, },
