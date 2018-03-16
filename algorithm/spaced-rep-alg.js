@@ -16,9 +16,7 @@ const algorithm = (questionsList, userAnswer) => {
   else {
     questionsList.resetMemValue();
   }
-  console.log('BEFORE', questionsList.display());
   questionsList.insertAt(questionsList.head, questionsList.head.value.memoryValue);
-  console.log('AFTER', questionsList.display());
   return feedback;
 };
 

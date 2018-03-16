@@ -2,7 +2,7 @@
 class _Node {
   constructor(value, next) {
     this.value = value,
-    this.next = next;
+      this.next = next;
   }
 }
 
@@ -25,7 +25,6 @@ class LinkedList {
   }
 
   insertAt(item, position) {
-    console.log('ITEM', item, 'POSITION', position)
     let currentNode = this.head;
     let previousNode;
 

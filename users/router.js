@@ -21,7 +21,7 @@ passport.use(jwtStrategy);
 
 // Post to register a new user
 router.post('/', (req, res) => {
-  const requiredFields = [ 'username', 'password', 'firstName', 'lastName', ];
+  const requiredFields = ['username', 'password', 'firstName', 'lastName',];
   const missingField = requiredFields.find(field => !(field in req.body));
   // Our base set of questions/answers with default values
   const baseList = new LinkedList();
@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
     });
   }
 
-  const stringFields = [ 'username', 'password', 'firstName', 'lastName', ];
+  const stringFields = ['username', 'password', 'firstName', 'lastName',];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
   );
@@ -55,7 +55,7 @@ router.post('/', (req, res) => {
   We'll silently trim the other fields, because they aren't credentials
   used to log in, so it's less of a problem.
   */
-  const explicityTrimmedFields = [ 'username', 'password', ];
+  const explicityTrimmedFields = ['username', 'password',];
   const nonTrimmedField = explicityTrimmedFields.find(
     field => req.body[field].trim() !== req.body[field]
   );
@@ -181,10 +181,9 @@ router.put('/:id', jwtAuth, (req, res) => {
     .findById(req.params.id)
     .then((user) => {
       const temp = new LinkedList(user.questions);
-      return {feedback: algorithm(temp, answer), temp};
+      return { feedback: algorithm(temp, answer), temp, };
     })
     .then((data) => {
-      console.log(data);
       // User
       //   .findByIdAndUpdate(req.params.id, {$set: })
     });
