@@ -5,25 +5,20 @@
  */
 
 const algorithm = (questionsList, userAnswer) => {
-  let { memoryValue, timesSeen, timesCorrect, answer, } = questionsList.head.value; // eslint-disable-line
+  let { answer, } = questionsList.head.value; // eslint-disable-line
   let feedback = false;
   // User answered correctly
   if (userAnswer === answer) {
-    const size = questionsList.size();
-    // Make sure we're not trying to move item to a position that doesnt exist
-    memoryValue = Math.min(size - 1, memoryValue * 2);
+    questionsList.doubleMemValue();
     feedback = true;
-    timesCorrect++;
   }
   // User answered incorrectly
   else {
-    memoryValue = 1;
+    questionsList.resetMemValue();
   }
   console.log('BEFORE', questionsList.display());
-  questionsList.insertAt(questionsList.head, memoryValue);
+  questionsList.insertAt(questionsList.head, questionsList.head.value.memoryValue);
   console.log('AFTER', questionsList.display());
-
-  timesSeen++;
   return feedback;
 };
 

@@ -25,11 +25,7 @@ class LinkedList {
   }
 
   insertAt(item, position) {
-    // List is empty
-    if (this.head === null) {
-      this.insertFirst(item);
-    }
-
+    console.log('ITEM', item, 'POSITION', position)
     let currentNode = this.head;
     let previousNode;
 
@@ -37,14 +33,25 @@ class LinkedList {
     for (let i = 0; i <= position; i++) {
       previousNode = currentNode;
       currentNode = currentNode.next;
-      if (currentNode === null) {
-        throw new Error('Couldn\'t perform this action. Check your inputs and try again!');
-      }
     }
     // Point head to second item in list
     this.head = this.head.next;
     previousNode.next = item;
     item.next = currentNode;
+  }
+
+  doubleMemValue() {
+    const size = this.size();
+    this.head.value.memoryValue = 30;
+    // Make sure we're not trying to move item to a position that doesnt exist
+    this.head.value.timesCorrect++;
+    this.head.value.timesSeen++;
+    this.head.value.memoryValue = Math.min(size - 1, this.head.value.memoryValue * 2);
+  }
+
+  resetMemValue() {
+    this.head.value.timesSeen++;
+    this.head.value.memoryValue = 1;
   }
 
   peek() {
