@@ -11,33 +11,7 @@ Move the question back M places in the list
 You can use a singly linked list to do this
 
 
-present user 
-        1    1    1    1    1    1
-head -> a -> b -> c -> d -> e -> f -> null
 
-        1    1    2    1    1    1
-head -> b -> c -> a -> d -> e -> f -> null
-
-        1    2    2    1    1    1
-head -> c -> a -> b -> d -> e -> f -> null
-
-        2    2    2    1    1    1
-head -> a -> b -> c -> d -> e -> f -> null
-
-        2    2    1    1    4    1
-head -> b -> c -> d -> e -> a -> f -> null
-
-        2    1    1    4    4    1
-head -> c -> d -> e -> a -> b -> f -> null
-
-        1    1    4    4    4    1
-head -> d -> e -> a -> b -> c -> f -> null
-
-        1    4    2    4    1    1
-head -> e -> a -> d -> b -> c -> f -> null
-
-        4    2    2    4    4    1
-head -> a -> d -> e -> b -> c -> f -> null
 
 Backend
 The backend of the app plays three key roles. The first is authentication. To allow users to authenticate, the backend should use the JWT. To protect the endpoints you should use Local Strategy.
