@@ -1,5 +1,5 @@
-# This is the back-end for [Back To Basics](https://clever-rosalind-0fcb2a.netlify.com)
-Check out the client repo to [learn more](https://github.com/thinkful-ei17/brent-spaced-rep-client)
+# This is the back-end for [Back To Basics](https://backtobasics.netlify.com)
+Check out the client repo [here](https://github.com/brentguistwite/Back-To-Basics)
 
 ## The server has 3 roles
 - The first is authentication. We use JWT's to verify users and protect endpoints.
